@@ -28,7 +28,7 @@
   margin: 0;
 }
 
-/* Keep text sizing consistent across mobile browsers. */
+/* Keep text sizing consistent and allow smooth anchor navigation. */
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -44,7 +44,7 @@ body {
   line-height: 1.65;
 }
 
-/* Scale headings fluidly so they adapt smoothly to viewport size. */
+/* Scale headings fluidly while keeping their line heights compact. */
 h1,
 h2,
 h3 {
@@ -74,6 +74,10 @@ svg {
   max-width: 100%;
 }
 
+img {
+  height: auto;
+}
+
 /* Inherit the page's typography in form controls and buttons. */
 button,
 input,
@@ -82,36 +86,74 @@ textarea {
   font: inherit;
 }
 
-/* Give the sticky header a full-width surface and align its contents. */
+/* Keep the mobile header compact, sticky, and aligned in two columns. */
 header {
   position: sticky;
   top: 0;
   z-index: 10;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  padding: var(--space-4) max(var(--space-4), calc((100% - var(--max-width)) / 2));
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid #e1e8f0;
-  background: rgb(255 255 255 / 94%);
+  background: rgb(255 255 255 / 96%);
   box-shadow: 0 0.25rem 1rem rgb(23 36 58 / 5%);
   backdrop-filter: blur(12px);
 }
 
-/* Style the portfolio name in the header. */
+/* Keep the portfolio name legible and prevent it from wrapping. */
 header h1 {
   color: var(--color-text);
   white-space: nowrap;
 }
 
-/* Lay out the navigation links in a compact horizontal row. */
+/* Make the menu button easy to tap and draw its hamburger icon. */
+.menu-toggle {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid #d5e0e9;
+  border-radius: var(--space-2);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  width: 1.2rem;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+/* Hide the mobile navigation until its button opens it. */
+nav {
+  display: none;
+  grid-column: 1 / -1;
+}
+
+nav.is-open {
+  display: block;
+}
+
+/* Stack mobile navigation links for a narrow screen. */
 nav ul {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: var(--space-2) var(--space-5);
-  padding: 0;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2) 0;
   list-style: none;
+}
+
+nav a {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--space-2);
 }
 
 /* Provide clear default and interactive link states. */
@@ -125,24 +167,27 @@ a {
 
 a:hover {
   color: #055d68;
+  background-color: #e7f4f4;
 }
 
-a:focus-visible {
+a:focus-visible,
+button:focus-visible {
   border-radius: var(--space-1);
   outline: 3px solid var(--color-accent);
-  outline-offset: 4px;
+  outline-offset: 3px;
 }
 
-/* Center the main content and add comfortable vertical rhythm. */
+/* Center the main content with mobile-friendly side padding. */
 main {
-  width: min(100% - 2 * var(--space-5), var(--max-width));
+  width: min(100% - 2 * var(--space-4), var(--max-width));
   margin-inline: auto;
 }
 
-/* Separate each content section with generous spacing and subtle dividers. */
+/* Separate sections and keep anchor headings clear of the sticky menu. */
 main section {
-  padding-block: clamp(var(--space-6), 7vw, 5rem);
+  padding-block: var(--space-6);
   border-bottom: 1px solid #dfe6ee;
+  scroll-margin-top: 14rem;
 }
 
 /* Add consistent spacing after section titles. */
@@ -150,35 +195,23 @@ main section h2 {
   margin-bottom: var(--space-5);
 }
 
-/* Arrange the introduction beside its profile image on wider screens. */
+/* Arrange the introduction vertically on small screens. */
 #about {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(180px, 280px);
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
-  gap: var(--space-4) var(--space-6);
-}
-
-#about h2,
-#about p {
-  grid-column: 1;
-}
-
-#about h2 {
-  align-self: end;
-  margin-bottom: 0;
+  gap: var(--space-4);
 }
 
 #about p {
-  align-self: start;
   max-width: 62ch;
   color: var(--color-muted);
 }
 
-/* Display the profile image as a framed portrait. */
+/* Frame the portrait while allowing it to shrink to the available width. */
 #about img {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  width: 100%;
+  width: min(100%, 280px);
+  height: auto;
   aspect-ratio: 1;
   border: 0.4rem solid var(--color-surface);
   border-radius: var(--radius);
@@ -190,13 +223,13 @@ main section h2 {
 #skills ul {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  gap: var(--space-2);
   padding: 0;
   list-style: none;
 }
 
 #skills li {
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-2) var(--space-3);
   border: 1px solid #c8e3e5;
   border-radius: 999px;
   background: #e7f4f4;
@@ -204,15 +237,14 @@ main section h2 {
   font-weight: 650;
 }
 
-/* Lay out project cards responsively, with the section title spanning the grid. */
+/* Keep project cards in a single column on small screens. */
 #projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: var(--space-5);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
 }
 
 #projects h2 {
-  grid-column: 1 / -1;
   margin-bottom: 0;
 }
 
@@ -222,8 +254,8 @@ main section h2 {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-4);
-  min-height: 100%;
-  padding: var(--space-5);
+  min-width: 0;
+  padding: var(--space-4);
   border: 1px solid #e3e9f0;
   border-radius: var(--radius);
   background: var(--color-surface);
@@ -248,51 +280,119 @@ main section h2 {
 /* Keep contact details readable and space the social links. */
 #contact p {
   margin-bottom: var(--space-4);
+  overflow-wrap: anywhere;
 }
 
 #contact ul {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-5);
+  gap: var(--space-4);
   padding: 0;
   list-style: none;
 }
 
 /* Align the footer with the content and soften its visual emphasis. */
 footer {
-  width: min(100% - 2 * var(--space-5), var(--max-width));
+  width: min(100% - 2 * var(--space-4), var(--max-width));
   margin-inline: auto;
   padding-block: var(--space-5);
   color: var(--color-muted);
   font-size: 0.9rem;
 }
 
-/* Stack the introduction and header links more comfortably on small screens. */
-@media (max-width: 600px) {
+/* Use a two-column introduction and card grid on tablet-sized screens. */
+@media (min-width: 768px) {
   header {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: var(--space-2);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-4) max(var(--space-5), calc((100% - var(--max-width)) / 2));
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  nav,
+  nav.is-open {
+    display: block;
   }
 
   nav ul {
-    justify-content: flex-start;
-    gap: var(--space-2) var(--space-4);
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    padding: 0;
+  }
+
+  nav a {
+    padding: var(--space-2) var(--space-3);
+  }
+
+  main,
+  footer {
+    width: min(100% - 2 * var(--space-5), var(--max-width));
+  }
+
+  main section {
+    padding-block: var(--space-6);
+    scroll-margin-top: 7rem;
   }
 
   #about {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
+    gap: var(--space-4) var(--space-6);
   }
 
   #about h2,
-  #about p,
-  #about img {
+  #about p {
     grid-column: 1;
-    grid-row: auto;
+  }
+
+  #about h2 {
+    align-self: end;
+    margin-bottom: 0;
+  }
+
+  #about p {
+    align-self: start;
   }
 
   #about img {
-    width: min(100%, 280px);
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  #skills ul {
+    gap: var(--space-3);
+  }
+
+  #skills li {
+    padding-inline: var(--space-4);
+  }
+
+  #projects {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-5);
+  }
+
+  #projects article {
+    padding: var(--space-5);
+  }
+
+  #contact ul {
+    gap: var(--space-5);
+  }
+}
+
+/* Expand section breathing room and content width on desktop screens. */
+@media (min-width: 1024px) {
+  main section {
+    padding-block: clamp(var(--space-6), 7vw, 5rem);
+  }
+
+  #about {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
   }
 }
 
