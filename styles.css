@@ -2,10 +2,20 @@
 :root {
   color-scheme: light;
   --color-bg: #f0f2ff;
+  --color-bg-start: #edf2ff;
+  --color-bg-middle: #f5efff;
+  --color-bg-end: #e8f7f4;
   --color-surface: #ffffff;
   --color-text: #17243a;
   --color-muted: #5d6b80;
-  --color-accent: #087f8c;
+  --color-accent: #006b76;
+  --color-border: #dfe6ee;
+  --color-control-border: #d5e0e9;
+  --color-hover-bg: #e7f4f4;
+  --color-hover-text: #055d68;
+  --color-skill-bg: #e7f4f4;
+  --color-skill-border: #c8e3e5;
+  --color-skill-text: #075d66;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -38,11 +48,28 @@ html {
 /* Set the base typography, colors, and page background. */
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #edf2ff 0%, #f5efff 52%, #e8f7f4 100%);
-  background-attachment: fixed;
+  background-color: var(--color-bg);
+  background-image: linear-gradient(135deg, var(--color-bg-start) 0%, var(--color-bg-middle) 52%, var(--color-bg-end) 100%);
   color: var(--color-text);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.65;
+}
+
+/* Reveal the main-content shortcut only when it receives keyboard focus. */
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 20;
+  padding: var(--space-2) var(--space-3);
+  transform: translateY(-150%);
+  border-radius: var(--space-1);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 /* Scale headings fluidly while keeping their line heights compact. */
@@ -97,7 +124,7 @@ header {
   align-items: center;
   gap: var(--space-3) var(--space-4);
   padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid #e1e8f0;
+  border-bottom: 1px solid var(--color-border);
   background: rgb(255 255 255 / 96%);
   box-shadow: 0 0.25rem 1rem rgb(23 36 58 / 5%);
   backdrop-filter: blur(12px);
@@ -118,7 +145,7 @@ header h1 {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  border: 1px solid #d5e0e9;
+  border: 1px solid var(--color-control-border);
   border-radius: var(--space-2);
   background: var(--color-surface);
   color: var(--color-text);
@@ -167,8 +194,8 @@ a {
 }
 
 a:hover {
-  color: #055d68;
-  background-color: #e7f4f4;
+  color: var(--color-hover-text);
+  background-color: var(--color-hover-bg);
 }
 
 a:focus-visible,
@@ -187,7 +214,7 @@ main {
 /* Separate sections and keep anchor headings clear of the sticky menu. */
 main section {
   padding-block: var(--space-6);
-  border-bottom: 1px solid #dfe6ee;
+  border-bottom: 1px solid var(--color-border);
   scroll-margin-top: 14rem;
 }
 
@@ -231,10 +258,10 @@ main section h2 {
 
 #skills li {
   padding: var(--space-2) var(--space-3);
-  border: 1px solid #c8e3e5;
+  border: 1px solid var(--color-skill-border);
   border-radius: 999px;
-  background: #e7f4f4;
-  color: #075d66;
+  background: var(--color-skill-bg);
+  color: var(--color-skill-text);
   font-weight: 650;
 }
 
@@ -257,7 +284,7 @@ main section h2 {
   gap: var(--space-4);
   min-width: 0;
   padding: var(--space-4);
-  border: 1px solid #e3e9f0;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   background: var(--color-surface);
   box-shadow: 0 0.5rem 1.5rem rgb(23 36 58 / 5%);
@@ -397,12 +424,38 @@ footer {
   }
 }
 
-/* Reduce nonessential motion for visitors who request it. */
+/* Remove motion for visitors who request reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-bg: #111827;
+    --color-bg-start: #111827;
+    --color-bg-middle: #172033;
+    --color-bg-end: #132b31;
+    --color-surface: #1f2937;
+    --color-text: #f3f4f6;
+    --color-muted: #b6c2d2;
+    --color-accent: #54dfcd;
+    --color-border: #374151;
+    --color-control-border: #4b5563;
+    --color-hover-bg: #243746;
+    --color-hover-text: #a5f3fc;
+    --color-skill-bg: #15383b;
+    --color-skill-border: #245559;
+    --color-skill-text: #a5f3fc;
+  }
+
+  header {
+    background: rgb(17 24 39 / 96%);
   }
 }
