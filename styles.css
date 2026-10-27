@@ -1,24 +1,70 @@
-/* Modern CSS reset */
+/* Define the portfolio's colors, spacing, shape, and content width. */
+:root {
+  color-scheme: light;
+  --color-bg: #f3f6fa;
+  --color-surface: #ffffff;
+  --color-text: #17243a;
+  --color-muted: #5d6b80;
+  --color-accent: #087f8c;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2.5rem;
+  --radius: 1rem;
+  --max-width: 1100px;
+}
+
+/* Apply a consistent box model and remove browser-default spacing. */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* Remove default margins so spacing is controlled by the design system. */
 * {
   margin: 0;
 }
 
+/* Keep text sizing consistent across mobile browsers. */
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
+/* Set the base typography, colors, and page background. */
 body {
   min-height: 100vh;
-  line-height: 1.5;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.65;
 }
 
+/* Scale headings fluidly so they adapt smoothly to viewport size. */
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+h1 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+}
+
+/* Keep images and other media responsive within their containers. */
 img,
 picture,
 video,
@@ -28,9 +74,234 @@ svg {
   max-width: 100%;
 }
 
+/* Inherit the page's typography in form controls and buttons. */
 button,
 input,
 select,
 textarea {
   font: inherit;
+}
+
+/* Give the sticky header a full-width surface and align its contents. */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) max(var(--space-4), calc((100% - var(--max-width)) / 2));
+  border-bottom: 1px solid #e1e8f0;
+  background: rgb(255 255 255 / 94%);
+  box-shadow: 0 0.25rem 1rem rgb(23 36 58 / 5%);
+  backdrop-filter: blur(12px);
+}
+
+/* Style the portfolio name in the header. */
+header h1 {
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+/* Lay out the navigation links in a compact horizontal row. */
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2) var(--space-5);
+  padding: 0;
+  list-style: none;
+}
+
+/* Provide clear default and interactive link states. */
+a {
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.2em;
+  transition: color 160ms ease, background-color 160ms ease, outline-offset 160ms ease;
+}
+
+a:hover {
+  color: #055d68;
+}
+
+a:focus-visible {
+  border-radius: var(--space-1);
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+/* Center the main content and add comfortable vertical rhythm. */
+main {
+  width: min(100% - 2 * var(--space-5), var(--max-width));
+  margin-inline: auto;
+}
+
+/* Separate each content section with generous spacing and subtle dividers. */
+main section {
+  padding-block: clamp(var(--space-6), 7vw, 5rem);
+  border-bottom: 1px solid #dfe6ee;
+}
+
+/* Add consistent spacing after section titles. */
+main section h2 {
+  margin-bottom: var(--space-5);
+}
+
+/* Arrange the introduction beside its profile image on wider screens. */
+#about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 280px);
+  align-items: center;
+  gap: var(--space-4) var(--space-6);
+}
+
+#about h2,
+#about p {
+  grid-column: 1;
+}
+
+#about h2 {
+  align-self: end;
+  margin-bottom: 0;
+}
+
+#about p {
+  align-self: start;
+  max-width: 62ch;
+  color: var(--color-muted);
+}
+
+/* Display the profile image as a framed portrait. */
+#about img {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 0.4rem solid var(--color-surface);
+  border-radius: var(--radius);
+  object-fit: cover;
+  box-shadow: 0 1rem 2.5rem rgb(23 36 58 / 12%);
+}
+
+/* Render skills as flexible, wrapping pill badges. */
+#skills ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+#skills li {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid #c8e3e5;
+  border-radius: 999px;
+  background: #e7f4f4;
+  color: #075d66;
+  font-weight: 650;
+}
+
+/* Lay out project cards responsively, with the section title spanning the grid. */
+#projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-5);
+}
+
+#projects h2 {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
+/* Give project cards a raised surface and an animated hover lift. */
+#projects article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  min-height: 100%;
+  padding: var(--space-5);
+  border: 1px solid #e3e9f0;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: 0 0.5rem 1.5rem rgb(23 36 58 / 5%);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+#projects article:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 1rem 2rem rgb(23 36 58 / 12%);
+}
+
+#projects article p {
+  color: var(--color-muted);
+}
+
+/* Keep the project link anchored at the bottom of each card. */
+#projects article a {
+  margin-top: auto;
+}
+
+/* Keep contact details readable and space the social links. */
+#contact p {
+  margin-bottom: var(--space-4);
+}
+
+#contact ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  padding: 0;
+  list-style: none;
+}
+
+/* Align the footer with the content and soften its visual emphasis. */
+footer {
+  width: min(100% - 2 * var(--space-5), var(--max-width));
+  margin-inline: auto;
+  padding-block: var(--space-5);
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+/* Stack the introduction and header links more comfortably on small screens. */
+@media (max-width: 600px) {
+  header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  nav ul {
+    justify-content: flex-start;
+    gap: var(--space-2) var(--space-4);
+  }
+
+  #about {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #about h2,
+  #about p,
+  #about img {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  #about img {
+    width: min(100%, 280px);
+  }
+}
+
+/* Reduce nonessential motion for visitors who request it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
