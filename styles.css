@@ -1,7 +1,7 @@
 /* Define the portfolio's colors, spacing, shape, and content width. */
 :root {
   color-scheme: light;
-  --color-bg: #f3f6fa;
+  --color-bg: #f0f2ff;
   --color-surface: #ffffff;
   --color-text: #17243a;
   --color-muted: #5d6b80;
@@ -38,7 +38,8 @@ html {
 /* Set the base typography, colors, and page background. */
 body {
   min-height: 100vh;
-  background: var(--color-bg);
+  background: linear-gradient(135deg, #edf2ff 0%, #f5efff 52%, #e8f7f4 100%);
+  background-attachment: fixed;
   color: var(--color-text);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.65;
